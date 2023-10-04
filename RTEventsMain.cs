@@ -1,6 +1,4 @@
-﻿/**********************************************************
- * Demo for Standalone SDK.Created by Darcy on Oct.15 2009*
-***********************************************************/
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace RTEvents
 {
@@ -21,12 +20,6 @@ namespace RTEvents
         //Create Standalone SDK class dynamicly.
         public zkemkeeper.CZKEMClass axCZKEM1 = new zkemkeeper.CZKEMClass();
 
-
-        /******************************************************************************************************************************************
-        * Before you refer to this demo,we strongly suggest you read the development manual deeply first. 
-        * This part is for demonstrating the communication with your device.The main commnication ways of Iface series are "TCP/IP","Serial Port" 
-        * The communication way which you can use duing to the model of the device you have.
-        * ****************************************************************************************************************************************/
         #region Communication
         private bool bIsConnected = false;//the boolean value identifies whether the device is connected
         private int iMachineNumber = 1;//the serial number of the device.After connecting the device ,this value will be changed.
@@ -180,10 +173,6 @@ namespace RTEvents
 
         #endregion
 
-        /*************************************************************************************************
-        * Before you refer to this demo,we strongly suggest you read the development manual deeply first.*
-        * This part is for demonstrating the RealTime Events that triggered  by your operations          *
-        **************************************************************************************************/
         #region RealTime Events
 
         //When you place your finger on sensor of the device,this event will be triggered
@@ -217,6 +206,26 @@ namespace RTEvents
             lbRTShow.Items.Add("...VerifyMethod:" + iVerifyMethod.ToString());
             lbRTShow.Items.Add("...Workcode:" + iWorkCode.ToString());//the difference between the event OnAttTransaction and OnAttTransactionEx
             lbRTShow.Items.Add("...Time:" + iYear.ToString() + "-" + iMonth.ToString() + "-" + iDay.ToString() + " " + iHour.ToString() + ":" + iMinute.ToString() + ":" + iSecond.ToString());
+
+            //begin upload
+            string connetionString;
+            SqlConnection cnn;
+            connetionString = @"Data Source=192.168.88.141;Initial Catalog=CarService;User ID=sa;Password=sa0816812178";
+            cnn = new SqlConnection(connetionString);
+
+            cnn.Open();
+
+            String query = "INSERT INTO dbo.EmpFace (EmployeeNumber,EmployeeName,VerifyMethod,TimeStamp) ";
+            query += "VALUES (@EmployeeNumber,@EmployeeName, @VerifyMethod,@TimeStamp)";
+            SqlCommand uploadFace = new SqlCommand(query, cnn);
+
+            uploadFace.Parameters.AddWithValue("@EmployeeNumber", sEnrollNumber);//col 1 in SQL (dbo.EmpFace)
+            uploadFace.Parameters.AddWithValue("@EmployeeName", "Test");//col 2 in SQL (dbo.EmpFace)
+            uploadFace.Parameters.AddWithValue("VerifyMethod", iVerifyMethod.ToString());//col 3 in SQL (dbo.EmpFace)
+            uploadFace.Parameters.AddWithValue("TimeStamp", iYear.ToString() + "-" + iMonth.ToString() + "-" + iDay.ToString() + " " + iHour.ToString() + ":" + iMinute.ToString() + ":" + iSecond.ToString());//col 4 in SQL (dbo.EmpFace)
+            uploadFace.ExecuteNonQuery();
+
+            cnn.Close();
         }
 
         //When you have enrolled your finger,this event will be triggered and return the quality of the fingerprint you have enrolled
