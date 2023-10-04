@@ -1,11 +1,13 @@
-﻿using System;
+﻿/**********************************************************
+ * Demo for Standalone SDK.Created by Darcy on Oct.15 2009*
+***********************************************************/
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 namespace RTEvents
 {
@@ -19,10 +21,18 @@ namespace RTEvents
         //Create Standalone SDK class dynamicly.
         public zkemkeeper.CZKEMClass axCZKEM1 = new zkemkeeper.CZKEMClass();
 
+
+        /******************************************************************************************************************************************
+        * Before you refer to this demo,we strongly suggest you read the development manual deeply first. 
+        * This part is for demonstrating the communication with your device.The main commnication ways of Iface series are "TCP/IP","Serial Port" 
+        * The communication way which you can use duing to the model of the device you have.
+        * ****************************************************************************************************************************************/
         #region Communication
         private bool bIsConnected = false;//the boolean value identifies whether the device is connected
         private int iMachineNumber = 1;//the serial number of the device.After connecting the device ,this value will be changed.
 
+        //If your device supports the TCP/IP communications, you can refer to this.
+        //when you are using the tcp/ip communication,you can distinguish different devices by their IP address.
         private void btnConnect_Click(object sender, EventArgs e)
         {
             if (txtIP.Text.Trim() == "" || txtPort.Text.Trim() == "")
@@ -88,8 +98,92 @@ namespace RTEvents
             Cursor = Cursors.Default;
         }
 
+        //If your device supports the SerialPort communications, you can refer to this.
+        private void btnRsConnect_Click(object sender, EventArgs e)
+        {
+            if (cbPort.Text.Trim() == "" || cbBaudRate.Text.Trim() == "" || txtMachineSN.Text.Trim() == "")
+            {
+                MessageBox.Show("Port,BaudRate and MachineSN cannot be null", "Error");
+                return;
+            }
+            int idwErrorCode = 0;
+            //accept serialport number from string like "COMi"
+            int iPort;
+            string sPort = cbPort.Text.Trim();
+            for (iPort = 1; iPort < 10; iPort++)
+            {
+                if (sPort.IndexOf(iPort.ToString()) > -1)
+                {
+                    break;
+                }
+            }
+
+            Cursor = Cursors.WaitCursor;
+            if (btnRsConnect.Text == "Disconnect")
+            {
+                axCZKEM1.Disconnect();
+
+                this.axCZKEM1.OnFinger -= new zkemkeeper._IZKEMEvents_OnFingerEventHandler(axCZKEM1_OnFinger);
+                this.axCZKEM1.OnVerify -= new zkemkeeper._IZKEMEvents_OnVerifyEventHandler(axCZKEM1_OnVerify);
+                this.axCZKEM1.OnAttTransactionEx -= new zkemkeeper._IZKEMEvents_OnAttTransactionExEventHandler(axCZKEM1_OnAttTransactionEx);
+                this.axCZKEM1.OnFingerFeature -= new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(axCZKEM1_OnFingerFeature);
+                this.axCZKEM1.OnEnrollFingerEx -= new zkemkeeper._IZKEMEvents_OnEnrollFingerExEventHandler(axCZKEM1_OnEnrollFingerEx);
+                this.axCZKEM1.OnDeleteTemplate -= new zkemkeeper._IZKEMEvents_OnDeleteTemplateEventHandler(axCZKEM1_OnDeleteTemplate);
+                this.axCZKEM1.OnNewUser -= new zkemkeeper._IZKEMEvents_OnNewUserEventHandler(axCZKEM1_OnNewUser);
+                this.axCZKEM1.OnHIDNum -= new zkemkeeper._IZKEMEvents_OnHIDNumEventHandler(axCZKEM1_OnHIDNum);
+                this.axCZKEM1.OnAlarm -= new zkemkeeper._IZKEMEvents_OnAlarmEventHandler(axCZKEM1_OnAlarm);
+                this.axCZKEM1.OnDoor -= new zkemkeeper._IZKEMEvents_OnDoorEventHandler(axCZKEM1_OnDoor);
+                this.axCZKEM1.OnWriteCard -= new zkemkeeper._IZKEMEvents_OnWriteCardEventHandler(axCZKEM1_OnWriteCard);
+                this.axCZKEM1.OnEmptyCard -= new zkemkeeper._IZKEMEvents_OnEmptyCardEventHandler(axCZKEM1_OnEmptyCard);
+
+                bIsConnected = false;
+                btnRsConnect.Text = "Connect";
+                btnRsConnect.Refresh();
+                lblState.Text = "Current State:Disconnected";
+                Cursor = Cursors.Default;
+                return;
+            }
+
+            iMachineNumber = Convert.ToInt32(txtMachineSN.Text.Trim());//when you are using the serial port communication,you can distinguish different devices by their serial port number.
+            bIsConnected = axCZKEM1.Connect_Com(iPort, iMachineNumber, Convert.ToInt32(cbBaudRate.Text.Trim()));
+
+            if (bIsConnected == true)
+            {
+                btnRsConnect.Text = "Disconnect";
+                btnRsConnect.Refresh();
+                lblState.Text = "Current State:Connected";
+
+                if (axCZKEM1.RegEvent(iMachineNumber, 65535))//Here you can register the realtime events that you want to be triggered(the parameters 65535 means registering all)
+                {
+                    this.axCZKEM1.OnFinger += new zkemkeeper._IZKEMEvents_OnFingerEventHandler(axCZKEM1_OnFinger);
+                    this.axCZKEM1.OnVerify += new zkemkeeper._IZKEMEvents_OnVerifyEventHandler(axCZKEM1_OnVerify);
+                    this.axCZKEM1.OnAttTransactionEx += new zkemkeeper._IZKEMEvents_OnAttTransactionExEventHandler(axCZKEM1_OnAttTransactionEx);
+                    this.axCZKEM1.OnFingerFeature += new zkemkeeper._IZKEMEvents_OnFingerFeatureEventHandler(axCZKEM1_OnFingerFeature);
+                    this.axCZKEM1.OnEnrollFingerEx += new zkemkeeper._IZKEMEvents_OnEnrollFingerExEventHandler(axCZKEM1_OnEnrollFingerEx);
+                    this.axCZKEM1.OnDeleteTemplate += new zkemkeeper._IZKEMEvents_OnDeleteTemplateEventHandler(axCZKEM1_OnDeleteTemplate);
+                    this.axCZKEM1.OnNewUser += new zkemkeeper._IZKEMEvents_OnNewUserEventHandler(axCZKEM1_OnNewUser);
+                    this.axCZKEM1.OnHIDNum += new zkemkeeper._IZKEMEvents_OnHIDNumEventHandler(axCZKEM1_OnHIDNum);
+                    this.axCZKEM1.OnAlarm += new zkemkeeper._IZKEMEvents_OnAlarmEventHandler(axCZKEM1_OnAlarm);
+                    this.axCZKEM1.OnDoor += new zkemkeeper._IZKEMEvents_OnDoorEventHandler(axCZKEM1_OnDoor);
+                    this.axCZKEM1.OnWriteCard += new zkemkeeper._IZKEMEvents_OnWriteCardEventHandler(axCZKEM1_OnWriteCard);
+                    this.axCZKEM1.OnEmptyCard += new zkemkeeper._IZKEMEvents_OnEmptyCardEventHandler(axCZKEM1_OnEmptyCard);
+                }
+            }
+            else
+            {
+                axCZKEM1.GetLastError(ref idwErrorCode);
+                MessageBox.Show("Unable to connect the device,ErrorCode=" + idwErrorCode.ToString(), "Error");
+            }
+
+            Cursor = Cursors.Default;
+        }
+
         #endregion
 
+        /*************************************************************************************************
+        * Before you refer to this demo,we strongly suggest you read the development manual deeply first.*
+        * This part is for demonstrating the RealTime Events that triggered  by your operations          *
+        **************************************************************************************************/
         #region RealTime Events
 
         //When you place your finger on sensor of the device,this event will be triggered
@@ -123,26 +217,6 @@ namespace RTEvents
             lbRTShow.Items.Add("...VerifyMethod:" + iVerifyMethod.ToString());
             lbRTShow.Items.Add("...Workcode:" + iWorkCode.ToString());//the difference between the event OnAttTransaction and OnAttTransactionEx
             lbRTShow.Items.Add("...Time:" + iYear.ToString() + "-" + iMonth.ToString() + "-" + iDay.ToString() + " " + iHour.ToString() + ":" + iMinute.ToString() + ":" + iSecond.ToString());
-
-            //begin upload
-            string connetionString;
-            SqlConnection cnn;
-            connetionString = @"Data Source=192.168.88.141;Initial Catalog=CarService;User ID=sa;Password=sa0816812178";
-            cnn = new SqlConnection(connetionString);
-
-            cnn.Open();
-
-            String query = "INSERT INTO dbo.Log_ZKTeco (EmployeeNumber,EmployeeName,VerifyMethod,TimeStamp) ";
-            query += "VALUES (@EmployeeNumber,@EmployeeName, @VerifyMethod,@TimeStamp)";
-            SqlCommand uploadFinger = new SqlCommand(query, cnn);
-
-            uploadFinger.Parameters.AddWithValue("@EmployeeNumber", sEnrollNumber);//col 1 in SQL (dbo.EmpFingerEco)
-            uploadFinger.Parameters.AddWithValue("@EmployeeName", "Test01");//col 2 in SQL (dbo.EmpFingerEco)
-            uploadFinger.Parameters.AddWithValue("@VerifyMethod", iVerifyMethod);//col 3 in SQL (dbo.EmpFingerEco)
-            uploadFinger.Parameters.AddWithValue("TimeStamp", iYear.ToString() + "-" + iMonth.ToString() + "-" + iDay.ToString() + " " + iHour.ToString() + ":" + iMinute.ToString() + ":" + iSecond.ToString());//col 4 in SQL (dbo.EmpFingerEco)
-            uploadFinger.ExecuteNonQuery();
-
-            cnn.Close();
         }
 
         //When you have enrolled your finger,this event will be triggered and return the quality of the fingerprint you have enrolled
@@ -253,5 +327,9 @@ namespace RTEvents
         }
 
         #endregion
+
+
+       
+
     }
 } 
