@@ -11,7 +11,6 @@ D:\WorkSpace\Repository\GIT\standalonesdkdoc\release\sdk-6.2.5.54\Demo\C#\IFace\
 D:\WorkSpace\Repository\GIT\standalonesdkdoc\release\sdk-6.2.5.54\Demo\C#\IFace\RTEvents\obj\x86\Release\RTEvents.csproj.GenerateResource.Cache
 D:\WorkSpace\Repository\GIT\standalonesdkdoc\release\sdk-6.2.5.54\Demo\C#\IFace\RTEvents\obj\x86\Release\RTEvents.exe
 D:\WorkSpace\Repository\GIT\standalonesdkdoc\release\sdk-6.2.5.54\Demo\C#\IFace\RTEvents\obj\x86\Release\RTEvents.pdb
-C:\Users\pct\Downloads\RTEvents-main\obj\x86\Release\RTEvents.csproj.AssemblyReference.cache
 C:\Users\pct\Downloads\RTEvents-main\obj\x86\Release\Interop.zkemkeeper.dll
 C:\Users\pct\Downloads\RTEvents-main\obj\x86\Release\AxInterop.zkemkeeper.dll
 C:\Users\pct\Downloads\RTEvents-main\obj\x86\Release\RTEvents.csproj.ResolveComReference.cache
