@@ -32,11 +32,8 @@
             this.txtIP = new System.Windows.Forms.TextBox();
             this.lblState = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lvRT = new System.Windows.Forms.ListView();
-            this.ch1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ch4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnSetDeviceTime = new System.Windows.Forms.Button();
+            this.txtGetDeviceTime = new System.Windows.Forms.TextBox();
             this.lbRTShow = new System.Windows.Forms.ListBox();
             this.rtTimer = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -141,7 +138,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.lvRT);
+            this.groupBox3.Controls.Add(this.btnSetDeviceTime);
+            this.groupBox3.Controls.Add(this.txtGetDeviceTime);
             this.groupBox3.Controls.Add(this.lbRTShow);
             this.groupBox3.Location = new System.Drawing.Point(8, 188);
             this.groupBox3.Name = "groupBox3";
@@ -149,52 +147,32 @@
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Show the Triggered Real Time Events";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
-            // lvRT
+            // btnSetDeviceTime
             // 
-            this.lvRT.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ch1,
-            this.ch2,
-            this.ch3,
-            this.ch4});
-            this.lvRT.HideSelection = false;
-            this.lvRT.Location = new System.Drawing.Point(6, 157);
-            this.lvRT.Name = "lvRT";
-            this.lvRT.Size = new System.Drawing.Size(445, 137);
-            this.lvRT.TabIndex = 7;
-            this.lvRT.UseCompatibleStateImageBehavior = false;
-            this.lvRT.View = System.Windows.Forms.View.Details;
+            this.btnSetDeviceTime.Location = new System.Drawing.Point(168, 260);
+            this.btnSetDeviceTime.Name = "btnSetDeviceTime";
+            this.btnSetDeviceTime.Size = new System.Drawing.Size(101, 23);
+            this.btnSetDeviceTime.TabIndex = 5;
+            this.btnSetDeviceTime.Text = "SyncDeviceTime";
+            this.btnSetDeviceTime.UseVisualStyleBackColor = true;
+            this.btnSetDeviceTime.Click += new System.EventHandler(this.btnSetDeviceTime_Click);
             // 
-            // ch1
+            // txtGetDeviceTime
             // 
-            this.ch1.Text = "UserID";
-            // 
-            // ch2
-            // 
-            this.ch2.Text = "Name";
-            this.ch2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.ch2.Width = 104;
-            // 
-            // ch3
-            // 
-            this.ch3.Text = "Mod";
-            this.ch3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // ch4
-            // 
-            this.ch4.Text = "Time";
-            this.ch4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.ch4.Width = 215;
+            this.txtGetDeviceTime.Location = new System.Drawing.Point(275, 262);
+            this.txtGetDeviceTime.Name = "txtGetDeviceTime";
+            this.txtGetDeviceTime.ReadOnly = true;
+            this.txtGetDeviceTime.Size = new System.Drawing.Size(156, 20);
+            this.txtGetDeviceTime.TabIndex = 7;
             // 
             // lbRTShow
             // 
             this.lbRTShow.FormattingEnabled = true;
             this.lbRTShow.Location = new System.Drawing.Point(6, 17);
             this.lbRTShow.Name = "lbRTShow";
-            this.lbRTShow.Size = new System.Drawing.Size(445, 134);
+            this.lbRTShow.Size = new System.Drawing.Size(445, 225);
             this.lbRTShow.TabIndex = 4;
-            this.lbRTShow.SelectedIndexChanged += new System.EventHandler(this.lbRTShow_SelectedIndexChanged);
             // 
             // pictureBox1
             // 
@@ -223,6 +201,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -243,11 +222,8 @@
         private System.Windows.Forms.Timer rtTimer;
         private System.Windows.Forms.ListBox lbRTShow;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ListView lvRT;
-        private System.Windows.Forms.ColumnHeader ch1;
-        private System.Windows.Forms.ColumnHeader ch2;
-        private System.Windows.Forms.ColumnHeader ch3;
-        private System.Windows.Forms.ColumnHeader ch4;
+        private System.Windows.Forms.Button btnSetDeviceTime;
+        private System.Windows.Forms.TextBox txtGetDeviceTime;
     }
 }
 

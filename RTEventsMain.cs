@@ -128,28 +128,44 @@ namespace RTEvents
             uploadName.ExecuteNonQuery();
 
             cnn.Close();
-            
-            //Table Show
-            ListViewItem list = new ListViewItem();
-            list.Text = UserID;
-            list.SubItems.Add("unknow");
-            list.SubItems.Add(Mod);
-            list.SubItems.Add(TimeStamp);
-            lvRT.Items.Add(list);
+
         }
 
 
 
         #endregion
 
-        private void groupBox3_Enter(object sender, EventArgs e)
+        private void btnSetDeviceTime_Click(object sender, EventArgs e)
         {
+            if (bIsConnected == false)
+            {
+                MessageBox.Show("Please connect the device first", "Error");
+                return;
+            }
+            int idwErrorCode = 0;
 
-        }
-
-        private void lbRTShow_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            Cursor = Cursors.WaitCursor;
+            if (axCZKEM1.SetDeviceTime(iMachineNumber))
+            {
+                axCZKEM1.RefreshData(iMachineNumber);//the data in the device should be refreshed
+                MessageBox.Show("Successfully set the time of the machine and the terminal to sync PC!", "Success");
+                int idwYear = 0;
+                int idwMonth = 0;
+                int idwDay = 0;
+                int idwHour = 0;
+                int idwMinute = 0;
+                int idwSecond = 0;
+                if (axCZKEM1.GetDeviceTime(iMachineNumber, ref idwYear, ref idwMonth, ref idwDay, ref idwHour, ref idwMinute, ref idwSecond))//show the time
+                {
+                    txtGetDeviceTime.Text = idwYear.ToString() + "-" + idwMonth.ToString() + "-" + idwDay.ToString() + " " + idwHour.ToString() + ":" + idwMinute.ToString() + ":" + idwSecond.ToString();
+                }
+            }
+            else
+            {
+                axCZKEM1.GetLastError(ref idwErrorCode);
+                MessageBox.Show("Operation failed,ErrorCode=" + idwErrorCode.ToString(), "Error");
+            }
+            Cursor = Cursors.Default;
         }
     }
 } 
