@@ -32,6 +32,11 @@
             this.txtIP = new System.Windows.Forms.TextBox();
             this.lblState = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lvRT = new System.Windows.Forms.ListView();
+            this.ch1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ch4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lbRTShow = new System.Windows.Forms.ListBox();
             this.rtTimer = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -136,6 +141,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.lvRT);
             this.groupBox3.Controls.Add(this.lbRTShow);
             this.groupBox3.Location = new System.Drawing.Point(8, 188);
             this.groupBox3.Name = "groupBox3";
@@ -143,21 +149,56 @@
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Show the Triggered Real Time Events";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // lvRT
+            // 
+            this.lvRT.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ch1,
+            this.ch2,
+            this.ch3,
+            this.ch4});
+            this.lvRT.HideSelection = false;
+            this.lvRT.Location = new System.Drawing.Point(6, 157);
+            this.lvRT.Name = "lvRT";
+            this.lvRT.Size = new System.Drawing.Size(445, 137);
+            this.lvRT.TabIndex = 7;
+            this.lvRT.UseCompatibleStateImageBehavior = false;
+            this.lvRT.View = System.Windows.Forms.View.Details;
+            // 
+            // ch1
+            // 
+            this.ch1.Text = "UserID";
+            // 
+            // ch2
+            // 
+            this.ch2.Text = "Name";
+            this.ch2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ch2.Width = 104;
+            // 
+            // ch3
+            // 
+            this.ch3.Text = "Mod";
+            this.ch3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // ch4
+            // 
+            this.ch4.Text = "Time";
+            this.ch4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ch4.Width = 215;
             // 
             // lbRTShow
             // 
             this.lbRTShow.FormattingEnabled = true;
             this.lbRTShow.Location = new System.Drawing.Point(6, 17);
             this.lbRTShow.Name = "lbRTShow";
-            this.lbRTShow.Size = new System.Drawing.Size(445, 277);
+            this.lbRTShow.Size = new System.Drawing.Size(445, 134);
             this.lbRTShow.TabIndex = 4;
-            // 
-            // rtTimer
-            // 
-            this.rtTimer.Tick += new System.EventHandler(this.rtTimer_Tick);
+            this.lbRTShow.SelectedIndexChanged += new System.EventHandler(this.lbRTShow_SelectedIndexChanged);
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Image = global::RTEvents.Properties.Resources.top;
             this.pictureBox1.Location = new System.Drawing.Point(-1, -2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(477, 30);
@@ -202,6 +243,11 @@
         private System.Windows.Forms.Timer rtTimer;
         private System.Windows.Forms.ListBox lbRTShow;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ListView lvRT;
+        private System.Windows.Forms.ColumnHeader ch1;
+        private System.Windows.Forms.ColumnHeader ch2;
+        private System.Windows.Forms.ColumnHeader ch3;
+        private System.Windows.Forms.ColumnHeader ch4;
     }
 }
 
