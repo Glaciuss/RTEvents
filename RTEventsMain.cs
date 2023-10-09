@@ -28,6 +28,9 @@ namespace RTEvents
         //when you are using the tcp/ip communication,you can distinguish different devices by their IP address.
         private void btnConnect_Click(object sender, EventArgs e)
         {
+
+            
+
             if (txtIP.Text.Trim() == "" || txtPort.Text.Trim() == "")
             {
                 MessageBox.Show("IP and Port cannot be null", "Error");
@@ -54,6 +57,8 @@ namespace RTEvents
             bIsConnected = axCZKEM1.Connect_Net(txtIP.Text, Convert.ToInt32(txtPort.Text));
             if (bIsConnected == true)
             {
+                btnSetDeviceTime_Click(null, new EventArgs());
+
                 btnConnect.Text = "DisConnect";
                 btnConnect.Refresh();
                 lblState.Text = "Current State:Connected";
@@ -120,9 +125,10 @@ namespace RTEvents
             uploadFace.Parameters.AddWithValue("TimeStamp", TimeStamp);//col 4 in SQL (dbo.EmpFace)
             uploadFace.ExecuteNonQuery();
 
-            //Update Name SQL
+            //Update Name SQL EmployeeName and ID
             String updateName = "update Log_ZKTeco";
-            updateName += " set Log_ZKTeco.EmployeeName = EmpIndex.EmployeeName";
+            updateName += " set Log_ZKTeco.EmployeeName = EmpIndex.EmployeeName, ";
+            updateName += " Log_ZKTeco.EmployeeID = EmpIndex.EmployeeID";
             updateName += " from Log_ZKTeco inner join EmpIndex on Log_ZKTeco.EmployeeNumber = EmpIndex.EmployeeNumber";
             SqlCommand uploadName = new SqlCommand(updateName, cnn);
             uploadName.ExecuteNonQuery();
@@ -148,7 +154,7 @@ namespace RTEvents
             if (axCZKEM1.SetDeviceTime(iMachineNumber))
             {
                 axCZKEM1.RefreshData(iMachineNumber);//the data in the device should be refreshed
-                MessageBox.Show("Successfully set the time of the machine and the terminal to sync PC!", "Success");
+                //MessageBox.Show("Successfully set the time of the machine and the terminal to sync PC!", "Success");
                 int idwYear = 0;
                 int idwMonth = 0;
                 int idwDay = 0;

@@ -24,3 +24,4 @@ C:\Users\pct\Downloads\RTEvents-main\bin\x86\Release\RTEvents.exe
 C:\Users\pct\Downloads\RTEvents-main\bin\x86\Release\RTEvents.pdb
 C:\Users\pct\Downloads\RTEvents-main\bin\x86\Release\Interop.zkemkeeper.dll
 C:\Users\pct\Downloads\RTEvents-main\bin\x86\Release\AxInterop.zkemkeeper.dll
+C:\Users\pct\Downloads\RTEvents-main\obj\x86\Release\RTEvents.csproj.AssemblyReference.cache
